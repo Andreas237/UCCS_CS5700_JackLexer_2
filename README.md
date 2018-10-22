@@ -7,7 +7,7 @@ CS5700, University of Colorado Colorado Springs
 
 ## Technical Approach
 
-Implement a recursive descent/top-down parser for the Jack language\[[1](# Citations)\].  Classes are the Translation Units.
+[Implement a recursive descent/top-down parser for the Jack language][1].  Classes are the Translation Units.
 
 ### Jack Language
 1. Lexical elements: five types of terminals (tokens)
@@ -67,4 +67,4 @@ Organisation of token elements in the language and functions to process them.
 
 
 ## Citations
-1) Noam Nisan and Shimon Schocken. _The Elements of Computing Systems_. MIT Press, 2005.  
+[1]: Noam Nisan and Shimon Schocken. _The Elements of Computing Systems_. MIT Press, 2005.  
