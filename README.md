@@ -7,7 +7,7 @@ CS5700, University of Colorado Colorado Springs
 
 ## Technical Approach
 
-Implement a recursive descent/top-down parser for the Jack language\[[1](#Citations)\].  Classes are the Translation Units.
+Implement a recursive descent/top-down parser for the Jack language\[[1](## Citations)\].  Classes are the Translation Units.
 
 ### Jack Language
 1. Lexical elements: five types of terminals (tokens)
@@ -49,7 +49,7 @@ Implement a recursive descent/top-down parser for the Jack language\[[1](#Citati
 ## Project Classes
 
 ### *_JackParser_*
-Process tokens read from the *_.tok_- files.  Stores the list of tokens for later extraction by the *_CompilationEngine_*. Based on E
+Process tokens read from the *_.tok_* files.  Stores the list of tokens for later extraction by the *_CompilationEngine_*.
 
 
 ### *_CompilationEngine_*
