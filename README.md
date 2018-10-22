@@ -7,7 +7,7 @@ CS5700, University of Colorado Colorado Springs
 
 ## Technical Approach
 
-Implement a recursive descent/top-down parser for the [Jack language][1].  Classes are the Translation Units.
+Implement a recursive descent/top-down parser for the Jack language[1].  Classes are the Translation Units.
 
 ### Jack Language
 1. Lexical elements: five types of terminals (tokens)
