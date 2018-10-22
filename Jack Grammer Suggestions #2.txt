@@ -1,0 +1,38 @@
+Let's consider how to achieve the goal of not requiring our parser to look ahead beyond the current token.
+
+Consider the following grammar fragment
+
+expr -> var + var | var - var | var * var | var / var | + var | - var | ( expr )
+
+We have six productions, namely:
+
+expr ->
+	|
+		var + var
+		var - var
+		var * var
+		var / var
+		+ var
+		- var
+		( expr )
+
+If the next token is a '+', '-', or '(', we know exactly which production to invoke. But if the next token is a var, then we don't and would need to look at the next token to see if which production to use.
+
+But what if we create a new variable, called expr_var, and modify our grammar as follows:		
+
+expr ->
+	|
+		var expr_var
+		+ var
+		- var
+		( expr )
+
+expr_var ->
+	|
+		+ var
+		- var
+		* var
+		/ var
+
+Our new expr_var is a "helper variable" in our modified grammer and is NOT supposed to appear in our derivation. But this is easy to deal with. If the expr variable IS supposed to be in the derivation, then the function that derives it will output a opening tag when it is called and a closing tag when it ends. The function that derives our expr_var variable will simply do neither of these, but will otherwise be the same.
+		

@@ -1,0 +1,103 @@
+Let's consider the following variable from the original Jack grammar definition.
+
+class: 'class' className '{' classVarDec* subroutineDec* '}'
+
+This variable has a single production.
+
+Let's format this a bit more handily for our purposes by putting each item on it's own line.
+
+class >
+	'class'
+	className
+	'{'
+	classVarDec* 
+	subroutineDec* 
+	'}'
+
+Notice that we have two variables in this production that are starred, meaning that they can appear zero or more times. 
+
+Let's format our production to highlight this:
+
+class ->
+	'class'
+	className
+	'{'
+	*
+		classVarDec
+	*
+		subroutineDec 
+	'}'
+	
+We can do a similar formatting when a production uses the union '|' or the optional operator '?'. 
+
+Now let's consider that "className" is not in the list of allowed output variables. So we must replace it with a higher variable this is allowed. In this case, that is "identifier"
+
+We can next replace the terminals with their corresponding tokens, giving us:
+
+class ->
+	KW_CLASS
+	IDENT
+	SY_LBRACE
+	*
+		classVarDec
+	*
+		subroutineDec 
+	SY_RBRACE
+	
+We are now ready to start writing our function that parses a program. We will write one function per variable (or more if we desire, as long as we remember that the XML file can only reflect the specific variables that are authorized, so any finer functions simply must not put variable tags into the derivation).
+
+Since "class" is our start variable, our parser will start by calling this function.
+
+derive_class()
+
+	openTag("class")
+
+	if token != KW_CLASS: abort
+	tokenTag(token)
+	token = nextToken()	
+
+	if token != IDENT: abort
+	tokenTag(token)
+	token = nextToken()	
+
+	while (token == start_classVarDec())
+		derive classVarDec()
+		
+	while (token == start_subroutineDec())
+		derive subroutineDec()
+		
+	if token != SY_RBRACE: abort
+	tokenTag(token)
+	token = nextToken()	
+	
+	closeTag("class")	
+	token = nextToken()
+	
+The idea above is that each segment of code the consumes a token is responsible for advancing to the next token. This allows each segment to assume that the current token is the first token in the string that it is deriving. Note that this means that the token must be initialized tot he first token before the derive_class() function is called.
+
+It should be apparent that there is a glaring opportunity to encapsulate these tasks and end up with a function closer to the following:
+
+derive_class()
+
+	openTag("class")
+
+	eatToken(KW_CLASS)
+
+	eatToken(IDENT)
+
+	while startOf(classVarDec)
+		derive_classVarDec()
+		
+	while startOf(subroutineDec)
+		derive_subroutineDec()
+		
+	eatToken(SY_RBRACE)
+	
+	closeTag("class")	
+	
+The ability of this function to work relies on the ability to determine unambiguously whether the current token is the start a classVarDec production, a subroutineDec production, or neither.
+
+Looking at the classVarDec variable in the grammer, we see that it must start with either the 'static' or the 'field' keywords. Looking at our modified token list, we see that this require a KW_VARDEC token. 
+
+Looking at the subroutineDec variable in the grammer, we see that it must start with one of 'constructor', 'function', or 'method' keywords. Looking at our modified token list, we see that this require a KW_SUBDEC token.
+ 

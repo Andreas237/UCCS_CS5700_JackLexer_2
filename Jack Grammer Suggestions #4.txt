@@ -1,0 +1,200 @@
+Keeping in mind that we want an LL(1) grammar (i.e., only need to know one token at a time) we have two issues that we need to deal with:
+
+1) When we start processing a variable, we need to be able to know which production to use based on the type of our single token.
+
+This has already been dealt with in a previous Suggestions document.
+
+2) As we proceed across a production (as presented in Chapter 10, which is a common way) we need to be able to deal with optional and repeated elements.
+
+The first thing to note is that a rule like
+
+V -> (a b)* D g h C (E)? F
+
+Each uppercase letter is a variable (non-terminal) and each lowercase letter is a token (terminal).
+
+Is not in proper form for a grammar rule. The use of regular expression notation is common because it makes things more condensed and also generally makes it more meaningful to a human, but that is not the same as making it easy to implement a parser.
+
+So one option is to write it in proper form (this is not the ONLY option, as we shall see).
+
+Dealing with optional elements is easy. We simply duplicate the rule have have only one version have the optional element. We must, however, be careful to cover all bases. If a rule has n optional elements, then we need to end up with 2^n rules in which each possible combination of choices is represented in exactly one of the rules.
+
+So the above becomes
+
+V -> (a b)* D g h C E F
+V -> (a b)* D g h C F
+
+Next is dealing with the repeated elements. We can start dealing with this by replacing the repeated element with a new variable.
+
+V -> A D g h C E F
+V -> A D g h C F
+A -> Aab | e
+
+where e represents the epsilon production.
+
+The problem here is that A is left-recursive, which recursive descent parsers can't handle. Fortunately, in our case, we can simply rewrite this as
+
+V -> A D g h C E F
+V -> A D g h C F
+A -> abA | e
+
+Our next issue is that, if we are deriving variable V, we have two productions that start with the same thing. We dealt with this issue in a prior Suggestion topic, so we know we can write our grammer as follows:
+
+V -> A D C g h U
+U -> E F
+U -> F
+A -> abA | e
+
+So how do we derive from V?
+
+Our basic algorithm is
+
+derive_V()
+	derive_A()
+	derive_D()
+	export(g)
+	export(h)
+	derive_C()
+	derive_U()
+
+When we derive U, we need to determine which production to use. This is easy provided the first token that we encounter let's use make the decision between E and F. 
+
+Let's assume we have a function for each variable (or at least the ones that we need it for) called first_X() that we pass the current token type to and it returns T/F depending on whether that token can be the first token derived by that variable.	
+
+So our function for U would look like:
+
+derive_U()
+	
+	if (first_E(token))
+		derive_E()
+		derive_F()
+		return
+
+	if (first_F(token))
+		derive_F()
+		return
+	
+If we are confident that no two productions start with the same token, then we don't need the return statements since only one if() statement will pass.
+
+Another way to do this is to use a switch statement:
+
+derive_U()
+	
+	switch(token)
+	
+		case first_E_token:
+			derive_E()
+			derive_F()
+			break
+
+		case first_F_token:
+			derive_F()
+			break
+
+If there are multiple tokens that a production can start with (as long as no other production starts with them), then they can be lists as additional case labels as long as the programming language allows fallthrough.
+
+Now for our recursive production.
+
+A -> a b A | e
+
+The issue here is the epsilon production. Let's first write it in the same way that we wrote the function for U:
+
+derive_A()
+
+	switch (token)
+	
+		case a:
+			export(a)
+			export(b)
+			derive_A()
+			break
+
+		case epsilon:
+			break
+		
+The obvious problem here is that our token stream will not have an "epsilon" token that we can compare to. The less obvious problem with an epsilon production is that the current token actually belongs to the NEXT symbol (variable or terminal) in the string. Thus, for our simple recursive descent parser to work correctly, we need to make sure that the first token of EVERY symbol that might follow this one is NOT any of the tokens that this one could start with. In this case, we need to be sure that the first token in the derivation from D cannot be an 'a'.
+
+What if we wanted to just use the original form of the single production to pattern our code from?
+
+V -> (a b)* D g h C (E)? F
+
+This is actually not very hard, provided we have addressed the issues already meantioned, meaning that we verify that D cannot begin with an 'a' and that F cannot begin with anything that E can begin with. If we have done this, then our code looks something like the following:
+
+derive_V()
+	
+	while (tokenIs(a))
+		export(a)
+		export(b)
+	
+	derive_D()
+	export(g)
+	export(h)
+	derive_C()
+	
+	if (first_E(token))
+		derive_E()
+	
+	derive_F()
+
+From an implementation standpoint, we can have separate derive and first functions for each variable, but a more attractive alternative might be to have a single derive function and a single first function. This can be readily accomplished by doing something like
+
+derive(variable)
+
+	output <variable> newline
+
+	switch (variable)
+	
+		case V:
+
+			while (tokenIs(a))
+				export(a)
+				export(b)
+	
+			derive(D)
+			export(g)
+			export(h)
+			derive(C)
+	
+			if (first(E))
+				derive(E)
+			
+			break
+	
+		case D:
+		
+		...
+
+	output </variable> newline
+		
+first(variable)
+	
+	switch (variable)
+	
+		case V:
+
+			switch (token)
+				case k:
+				case p:
+					return TRUE
+					
+			return FALSE
+		
+		case U:
+		...
+
+Implicit in the above pseudocode is that the token is a global (though of course it is a simple matter to avoid this if desired, particularly if using an object-oriented approach). 
+
+The export() function would look something like this:
+
+export(expectedToken)
+
+	if (token == expectedToken)
+		output <tokenType>
+		output xml(tokenValue)
+		output </tokenType>
+		advanceToken()
+	else
+		syntaxError()
+	
+If the program ever tries to output a token other than the one that is currently expected by the derivation, the program detects this and generates a syntax error message (or at least aborts and gives some kind of indication that it did not succeed).
+	
+		
