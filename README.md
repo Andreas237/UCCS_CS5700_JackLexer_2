@@ -11,45 +11,45 @@ Implement a recursive descent/top-down parser for the Jack language\[[1](#Citati
 
 ### Jack Language
 1. Lexical elements: five types of terminals (tokens)
-  * keyword
-  * symbol
-  * integerConstant
-  * stringConstant
-  * identifier
+    - keyword
+    - symbol
+    - integerConstant
+    - stringConstant
+    - identifier
 2. Program Structure: Compilation unit is a class, each appearing in a separate file.  Classes are structured by:
-  1. class
-  2. classVarDec
-  3. type
-  4. subroutineDec
-  5. parameterList
-  6. subroutineBody
-  7. varDec
-  8. className
-  9. subroutineName
-  10. varName
+    1. class
+    2. classVarDec
+    3. type
+    4. subroutineDec
+    5. parameterList
+    6. subroutineBody
+    7. varDec
+    8. className
+    9. subroutineName
+    10. varName
 3. Statements:
-  * statements
-  * statement
-  * letStatement
-  * ifStatement
-  * whileStatement
-  * doStatement
-  * ReturnStatement
+    - statements
+    - statement
+    - letStatement
+    - ifStatement
+    - whileStatement
+    - doStatement
+    - ReturnStatement
 4. Expressions:
-  * expression
-  * term
-  * subroutineCall
-  * expressionList
-  * op
-  * unaryOp
-  * KeywordConstant
+    - expression
+    - term
+    - subroutineCall
+    - expressionList
+    - op
+    - unaryOp
+    - KeywordConstant
 
 
 
 ## Project Classes
 
 ### *_JackParser_*
-Process tokens read from the *_.tok_* files.  Stores the list of tokens for later extraction by the *_CompilationEngine_*. Based on E
+Process tokens read from the *_.tok_- files.  Stores the list of tokens for later extraction by the *_CompilationEngine_*. Based on E
 
 
 ### *_CompilationEngine_*
