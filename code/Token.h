@@ -1,10 +1,14 @@
+#ifndef TOKEN_H
+#define TOKEN_H
+
+
 #include <string>
 #include <map>
 
 
 
 class Token{
-   public:
+  private:
   	 std::string KW_TRUE;
   	 std::string KW_FALSE;
   	 std::string KW_NULL;
@@ -50,10 +54,16 @@ class Token{
 
      std::map<std::string,std::string> keywordMap, tokenMap;
 
-     Token();
+
      void setFields(void);
      void setKeywordMap(void);
-     void setTokenMap(void)
+     void setTokenMap(void);
+
+   public:
+     Token();
+     std::string getType(){ return this->type; }
+     std::string getValue(){ return this->value; }
+     void printTypeValue(void);
 
 
 };// end  class Token
@@ -68,8 +78,39 @@ class Token{
 Token::Token(){
   setFields();
   setKeywordMap();
+
+  this->type = "blank";
+  this->value = "blank";
   std::cout << "Created a token!" << std::endl;
+  printTypeValue();
 }// end Token::Token()
+
+
+
+
+
+
+
+
+///< Classifier
+/*!
+Classify the token as identifier, integer, keyword, KeywordConstant, op, stringConstant, symbol, unaryOp,
+*/
+void Token::classifier(std::String value){
+  
+}// end void Token::classifier(std::String value)
+
+
+
+
+
+
+
+
+///< Print type and value of this tone
+void Token::printTypeValue(void){
+  std::cout << "[Type|Value]=[" << this->getType() << "|" << this->getValue() << "]\n";
+}// end void Token::printTypeValue(void)
 
 
 
@@ -223,3 +264,7 @@ void Token::setTokenMap(void){
   tokenMap["<"]="SY_LESS";
   tokenMap[">"]="SY_MORE";
 }// end void Token::setTokenMap(void)
+
+
+
+#endif // TOKEN_H
