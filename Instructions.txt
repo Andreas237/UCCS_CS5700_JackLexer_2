@@ -1,0 +1,2 @@
+On Mac:
+cd OneDrive/Classes\,\ Books\,\ \&\ Learning/UCCS/CS5700_Automatat.Complexity.Computability/PJ04
