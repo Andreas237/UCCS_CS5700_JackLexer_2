@@ -66,8 +66,8 @@ void JackParser::addToken(std::string inStr){
 
 
 ///< printSelf()
-/*!    std::vector<std::string> types;
-     value;
+/*!
+Unnecessary since the tokens 
 */
 void JackParser::printSelf(void){
   std::cout << "JackParser::printSelf" << std::endl;
