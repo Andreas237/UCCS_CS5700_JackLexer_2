@@ -49,21 +49,29 @@ class Token{
   	 std::string SY_PIPE;
   	 std::string SY_LESS;
   	 std::string SY_MORE;
+
   	 std::string type;
   	 std::string value;
 
      std::map<std::string,std::string> keywordMap, tokenMap;
 
 
-     void setFields(void);
-     void setKeywordMap(void);
-     void setTokenMap(void);
+     void setupFields(void);
+     void setupKeywordMap(void);
+     void setupTokenMap(void);
+     void classifier(std::string value);
 
    public:
      Token();
-     std::string getType(){ return this->type; }
-     std::string getValue(){ return this->value; }
+     Token(std::string inType, std::string inValue);
+     ~Token();
+     void addNextToken(std::string, std::string);
+     std::string getClassification(void);  //TODO: return whether it is a symbol, keyword, integer, stringConstant, identifier
+     std::string getType(void){ return this->type;}
+     std::string getValue(void){ return this->value;}
      void printTypeValue(void);
+     void setType(std::string inType);
+     void setValue(std::string inValue);
 
 
 };// end  class Token
@@ -75,16 +83,58 @@ class Token{
 
 
 
+///< Token
 Token::Token(){
-  setFields();
-  setKeywordMap();
+  setupFields();
+  setupKeywordMap();
 
-  this->type = "blank";
-  this->value = "blank";
-  std::cout << "Created a token!" << std::endl;
-  printTypeValue();
+  this->type = "blank_type";
+  this->value = "blank_value";
+
 }// end Token::Token()
 
+
+
+
+
+
+
+
+///< Token(std::string, std::string)
+Token::Token(std::string inType, std::string inValue){
+  setupFields();
+  setupKeywordMap();
+  this->type = inType;
+  this->value = inValue;
+  std::cout << "Created a token!" << std::endl;
+}// end Token::Token(std::string, std::string)
+
+
+
+
+
+
+
+
+///< ~Token
+/*!
+While a next node exists
+*/
+Token::~Token(){
+
+}// end Token::~Token()
+
+
+
+
+
+
+
+
+///< addNextToken
+void Token::addNextToken(std::string, std::string){
+  //Token * nextToken =
+}// end void Token::addNextToken(std::string, std::string)
 
 
 
@@ -96,8 +146,8 @@ Token::Token(){
 /*!
 Classify the token as identifier, integer, keyword, KeywordConstant, op, stringConstant, symbol, unaryOp,
 */
-void Token::classifier(std::String value){
-  
+void Token::classifier(std::string value){
+
 }// end void Token::classifier(std::String value)
 
 
@@ -109,7 +159,7 @@ void Token::classifier(std::String value){
 
 ///< Print type and value of this tone
 void Token::printTypeValue(void){
-  std::cout << "[Type|Value]=[" << this->getType() << "|" << this->getValue() << "]\n";
+  std::cout << "Type:" << this->getType() << "\tvalue:" << this->getValue() << "]\n";
 }// end void Token::printTypeValue(void)
 
 
@@ -120,7 +170,7 @@ void Token::printTypeValue(void){
 
 
 ///< Initialize the fields in this token object
-void Token::setFields(void){
+void Token::setupFields(void){
   std::string KW_TRUE 		= "true";
   std::string KW_FALSE 		= "false";
   std::string KW_NULL 		= "null";
@@ -161,7 +211,7 @@ void Token::setFields(void){
   std::string SY_PIPE 		= "|";
   std::string SY_LESS 		= "<";
   std::string SY_MORE	 		= ">";
-}// end Token::setFields()
+}// end Token::setupFields()
 
 
 
@@ -171,7 +221,7 @@ void Token::setFields(void){
 
 
 ///< Initialize a map of each token and its keyword
-void Token::setKeywordMap(void){
+void Token::setupKeywordMap(void){
   keywordMap["KW_TRUE"] =  "true";
   keywordMap["KW_FALSE"] =  "false";
   keywordMap["KW_NULL"] =  "null";
@@ -212,7 +262,31 @@ void Token::setKeywordMap(void){
   keywordMap["SY_PIPE"] =  "|";
   keywordMap["SY_LESS"] =  "<";
   keywordMap["SY_MORE"] = ">";
-}// end void Token::setKeywordMap(void)
+}// end void Token::setupKeywordMap(void)
+
+
+
+
+
+
+
+
+///< setType
+void Token::setType(std::string inType){
+  this->type = inType;
+}// void Token::setType(std::string inType)
+
+
+
+
+
+
+
+
+///< setValue
+void Token::setValue(std::string inValue){
+  this->value = inValue;
+}// void Token::setValue(std::string inValue)
 
 
 
@@ -222,7 +296,7 @@ void Token::setKeywordMap(void){
 
 
 ///< Initialize a map of each token and its keyword
-void Token::setTokenMap(void){
+void Token::setupTokenMap(void){
   tokenMap["true"]="KW_TRUE";
   tokenMap["false"]="KW_FALSE";
   tokenMap["null"]="KW_NULL";
@@ -263,7 +337,7 @@ void Token::setTokenMap(void){
   tokenMap["|"]="SY_PIPE";
   tokenMap["<"]="SY_LESS";
   tokenMap[">"]="SY_MORE";
-}// end void Token::setTokenMap(void)
+}// end void Token::setupTokenMap(void)
 
 
 
