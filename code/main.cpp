@@ -41,17 +41,16 @@ int main(void){
     std::string fName = "./PJ04_token_files/ball.tok";
     std::string line;
     std::ifstream fin(fName,std::ios::in);
+
+    // If the file is open get the data and run the program
     if(fin.is_open()){
-      //while( getline(fin,line,' '))
-      while( getline(fin,line)){
-        //std::remove(line.begin(), line.end(),' ');
-        //std::cout << "line:" << line << std::endl;// << "\tsize: " << line.length() << std::endl;
+      while( getline(fin,line))
         jp.addToken(line);
-      }// end while( getline(fin,line,' '))
 
       jp.printTokens();
       fin.close();
-    }// end if(fin.open("../PJ04_token_files/ball.tok",ios::in))
+    }// end if(fin.is_open())
+    // Else the file didn't open and the program is ending
     else {
       std::cout << "ERROR: Failed to open " << fName << std::endl;
       return 1;

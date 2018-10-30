@@ -52,6 +52,7 @@ class Token{
 
   	 std::string type;
   	 std::string value;
+     std::string classification;
 
      std::map<std::string,std::string> keywordMap, tokenMap;
 
@@ -59,16 +60,24 @@ class Token{
      void setupFields(void);
      void setupKeywordMap(void);
      void setupTokenMap(void);
-     void classifier(std::string value);
+     void setClassification(void);
 
    public:
      Token();
      Token(std::string inType, std::string inValue);
-     ~Token();
-     void addNextToken(std::string, std::string);
+     //~Token();
      std::string getClassification(void);  //TODO: return whether it is a symbol, keyword, integer, stringConstant, identifier
      std::string getType(void){ return this->type;}
      std::string getValue(void){ return this->value;}
+     bool isIdent(void);
+     bool isInt(void);
+     bool isKeyword(void);
+     bool isKeywordConst(void);
+     bool isOp(void);
+     bool isStrConst(void);
+     bool isSymbol(void);
+     bool isUnaryOp(void);
+     void printToken(void);
      void printTypeValue(void);
      void setType(std::string inType);
      void setValue(std::string inValue);
@@ -106,7 +115,7 @@ Token::Token(std::string inType, std::string inValue){
   setupKeywordMap();
   this->type = inType;
   this->value = inValue;
-  std::cout << "Created a token!" << std::endl;
+  setClassification();
 }// end Token::Token(std::string, std::string)
 
 
@@ -116,25 +125,13 @@ Token::Token(std::string inType, std::string inValue){
 
 
 
-///< ~Token
+///< getClassification(void)
 /*!
-While a next node exists
+Return whether it is a symbol, keyword, integer, stringConstant, identifier
 */
-Token::~Token(){
-
-}// end Token::~Token()
-
-
-
-
-
-
-
-
-///< addNextToken
-void Token::addNextToken(std::string, std::string){
-  //Token * nextToken =
-}// end void Token::addNextToken(std::string, std::string)
+std::string Token::getClassification(void){
+  return this->classification ;
+}// end getClassification(void)
 
 
 
@@ -142,13 +139,131 @@ void Token::addNextToken(std::string, std::string){
 
 
 
-///< Classifier
-/*!
-Classify the token as identifier, integer, keyword, KeywordConstant, op, stringConstant, symbol, unaryOp,
-*/
-void Token::classifier(std::string value){
+///< isIdent(void)
+bool Token::isIdent(void){
+  if(type == "IDENT")
+    return true;
+  else
+    return false;
+}// end bool Token::isIdent(void)
 
-}// end void Token::classifier(std::String value)
+
+
+
+
+
+
+///< isInt(void)
+bool Token::isInt(void){
+  if(type == "INTEGER")
+    return true;
+  else
+    return false;
+}// bool Token::isInt(void)
+
+
+
+
+
+
+
+///< isKeyword(void)
+bool Token::isKeyword(void){
+ if(type.find("KW_") != std::string::npos)
+  return true;
+ else
+  return false;
+}// end isKeyword(void)
+
+
+
+
+
+
+
+///< isKeywordConst(void)
+bool Token::isKeywordConst(void){
+  if(type == "KW_TRUE" || type == "KW_FALSE" || type == "KW_NULL" || type == "KW_THIS")
+    return true;
+  else
+    return false;
+}// end isKeywordConst(void)
+
+
+
+
+
+
+
+///< isOp
+bool Token::isOp(void){
+  if( type == "SY_PLUS" || type == "SY_MINUS" || type == "SY_MUL" ||
+      type == "SY_DIV" || type == "SY_AND" || type == "SY_PIPE" ||
+      type == "SY_LESS" ||  type == "SY_MORE" || type == "SY_EQ")
+      return true;
+return false;
+}// end isOp(void)
+
+
+
+
+
+
+
+///< isStrConst
+bool Token::isStrConst(void){
+  if( type == "STRING" )
+    return true;
+  else
+    return false;
+}// end isStrConst(void)
+
+
+
+
+
+
+
+///< isSymbol(void)
+bool Token::isSymbol(void){
+  if(type.find("SY_") != std::string::npos)
+   return true;
+  else
+   return false;
+}// end isSymbol(void)
+
+
+
+
+
+
+
+///<
+bool Token::isUnaryOp(void){
+  if(type.find("SY_MINUS") != std::string::npos)
+   return true;
+  else if(type.find("SY_NOT") != std::string::npos)
+    return true;
+  else
+   return false;
+}// end isUnaryOp(void)
+
+
+
+
+
+
+
+
+///< printToken(void)
+void Token::printToken(void){
+  // print the type, value, classification
+  std::cout << this->getType() << "\t\t";
+  //std::cout << this->getValue() << "\t";
+  std::cout << this->getClassification() << "\t";
+  std::cout << std::endl;
+
+}// end printToken(void)
 
 
 
@@ -159,8 +274,34 @@ void Token::classifier(std::string value){
 
 ///< Print type and value of this tone
 void Token::printTypeValue(void){
-  std::cout << "Type:" << this->getType() << "\tvalue:" << this->getValue() << "]\n";
+  std::cout << "Type:" << this->getType()
+            << "\tvalue:" << this->getValue() << std::endl;
 }// end void Token::printTypeValue(void)
+
+
+
+
+
+
+
+///< setClassification(void)
+/*!
+Classify the token as identifier, integer, keyword, stringConstant, symbol
+*/
+void Token::setClassification(void){
+  if( isIdent() )
+    this->classification = "identifier";
+  else if( isInt() )
+    this->classification = "integer";
+  else if( isKeyword() )
+    this->classification = "keyword";
+  else if ( isStrConst() )
+    this->classification = "stringConstant";
+  else if ( isOp() || isSymbol() || isUnaryOp() )
+    this->classification = "symbol";
+  else
+    this->classification = "ERROR NO CLASSIFICATION";
+}// end setClassification(void)
 
 
 
