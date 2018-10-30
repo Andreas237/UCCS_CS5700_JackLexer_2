@@ -10,8 +10,6 @@ class JackParser{
   private:
     std::string input ;
     std::vector<Token> tokens;
-    std::vector<std::string> types;
-    std::vector<std::string> values;
   protected:
   public:
     JackParser();
@@ -27,12 +25,8 @@ class JackParser{
 
 
 ///< JackParser()
-/*!
-Initialize the members
-*/
 JackParser::JackParser(){
   std::cout << "Made a jack parser!" << std::endl;
-
 }// end JackParser::JackParser()
 
 
@@ -63,8 +57,10 @@ void JackParser::addToken(std::string inStr){
 ///< printTokens
 void JackParser::printTokens(void){
 
-  for( std::vector<Token>::iterator it = tokens.begin(); it != tokens.end(); ++it )
-    (*it).printToken();
+  for( std::vector<Token>::iterator it = tokens.begin(); it != tokens.end(); ++it ){
+    std::cout << "Value:" << (*it).getValue() << "|Type:" << (*it).getType() << "|Classification:" << (*it).getClassification() << std::endl;
+  }// end for( std::vector<Token>::iterator it = tokens.begin(); it != tokens.end(); ++it )
+    //(*it).printTypeValue();
     //(*it).printTypeValue();
 }// end void JackParser::printTokens()
 

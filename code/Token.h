@@ -9,6 +9,8 @@
 
 class Token{
   private:
+    // TODO: DELETE
+    /*
   	 std::string KW_TRUE;
   	 std::string KW_FALSE;
   	 std::string KW_NULL;
@@ -49,6 +51,7 @@ class Token{
   	 std::string SY_PIPE;
   	 std::string SY_LESS;
   	 std::string SY_MORE;
+     */
 
   	 std::string type;
   	 std::string value;
@@ -57,16 +60,16 @@ class Token{
      std::map<std::string,std::string> keywordMap, tokenMap;
 
 
-     void setupFields(void);
-     void setupKeywordMap(void);
-     void setupTokenMap(void);
+     //TODO: Delete void setupFields(void);
+     //TODO: Delete void setupKeywordMap(void);
+     //TODO: Delete void setupTokenMap(void);
      void setClassification(void);
 
    public:
      Token();
      Token(std::string inType, std::string inValue);
      //~Token();
-     std::string getClassification(void);  //TODO: return whether it is a symbol, keyword, integer, stringConstant, identifier
+     std::string getClassification(void){ return this->classification;}  //TODO: return whether it is a symbol, keyword, integer, stringConstant, identifier
      std::string getType(void){ return this->type;}
      std::string getValue(void){ return this->value;}
      bool isIdent(void);
@@ -94,8 +97,8 @@ class Token{
 
 ///< Token
 Token::Token(){
-  setupFields();
-  setupKeywordMap();
+  //TODO: Delete setupFields();
+  //TODO: Delete setupKeywordMap();
 
   this->type = "blank_type";
   this->value = "blank_value";
@@ -111,27 +114,12 @@ Token::Token(){
 
 ///< Token(std::string, std::string)
 Token::Token(std::string inType, std::string inValue){
-  setupFields();
-  setupKeywordMap();
+  //TODO: Delete setupFields();
+  //TODO: Delete setupKeywordMap();
   this->type = inType;
   this->value = inValue;
   setClassification();
 }// end Token::Token(std::string, std::string)
-
-
-
-
-
-
-
-
-///< getClassification(void)
-/*!
-Return whether it is a symbol, keyword, integer, stringConstant, identifier
-*/
-std::string Token::getClassification(void){
-  return this->classification ;
-}// end getClassification(void)
 
 
 
@@ -258,9 +246,9 @@ bool Token::isUnaryOp(void){
 ///< printToken(void)
 void Token::printToken(void){
   // print the type, value, classification
-  std::cout << this->getType() << "\t\t";
-  //std::cout << this->getValue() << "\t";
-  std::cout << this->getClassification() << "\t";
+  std::cout << this->getType() << "|";
+  std::cout << this->getValue() << "|";
+  std::cout << this->getClassification() << "|";
   std::cout << std::endl;
 
 }// end printToken(void)
@@ -310,6 +298,8 @@ void Token::setClassification(void){
 
 
 
+//TODO: Delete
+/*
 ///< Initialize the fields in this token object
 void Token::setupFields(void){
   std::string KW_TRUE 		= "true";
@@ -353,6 +343,7 @@ void Token::setupFields(void){
   std::string SY_LESS 		= "<";
   std::string SY_MORE	 		= ">";
 }// end Token::setupFields()
+*/
 
 
 
@@ -360,7 +351,8 @@ void Token::setupFields(void){
 
 
 
-
+//TODO: Delete
+/*
 ///< Initialize a map of each token and its keyword
 void Token::setupKeywordMap(void){
   keywordMap["KW_TRUE"] =  "true";
@@ -404,7 +396,7 @@ void Token::setupKeywordMap(void){
   keywordMap["SY_LESS"] =  "<";
   keywordMap["SY_MORE"] = ">";
 }// end void Token::setupKeywordMap(void)
-
+*/
 
 
 
@@ -436,6 +428,8 @@ void Token::setValue(std::string inValue){
 
 
 
+//TODO: Delete
+/*
 ///< Initialize a map of each token and its keyword
 void Token::setupTokenMap(void){
   tokenMap["true"]="KW_TRUE";
@@ -479,6 +473,7 @@ void Token::setupTokenMap(void){
   tokenMap["<"]="SY_LESS";
   tokenMap[">"]="SY_MORE";
 }// end void Token::setupTokenMap(void)
+*/
 
 
 

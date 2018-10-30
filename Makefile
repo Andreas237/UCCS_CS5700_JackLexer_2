@@ -12,15 +12,7 @@ TARGET=Jack
 
 
 
-
-# Includes files
-# use patsubst so that DEPS = include/trie.h
-#_DEPS = add_some.h
-#DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
-
-
-
-# use patsubst so that OBJ = obj/main.o obj/trie.o
+# use patsubst so that OBJ = obj/main.o
 _OBJ = main.o # other objects
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
