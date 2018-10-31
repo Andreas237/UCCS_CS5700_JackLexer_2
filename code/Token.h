@@ -68,10 +68,10 @@ class Token{
    public:
      Token();
      Token(std::string inType, std::string inValue);
-     //~Token();
-     std::string getClassification(void){ return this->classification;}  //TODO: return whether it is a symbol, keyword, integer, stringConstant, identifier
-     std::string getType(void){ return this->type;}
-     std::string getValue(void){ return this->value;}
+     void operator=(const Token &t);
+     std::string getClassification(void) const { return this->classification;}  //TODO: return whether it is a symbol, keyword, integer, stringConstant, identifier
+     std::string getType(void) const { return this->type;}
+     std::string getValue(void) const { return this->value;}
      bool isIdent(void);
      bool isInt(void);
      bool isKeyword(void);
@@ -105,6 +105,18 @@ Token::Token(){
 
 }// end Token::Token()
 
+
+
+
+
+
+
+
+///< operator=
+void Token::operator=(const Token &t){
+  this->type = t.getType();
+  this->value = t.getValue();
+}// end operator=(const Token &t)
 
 
 

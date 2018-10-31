@@ -49,14 +49,14 @@ Implement a recursive descent/top-down parser for the Jack language[1].  Classes
 ## Project Classes
 
 ### *_JackParser_*
-Process tokens read from the `.tok` files.  Stores the list of tokens for later extraction by the `CompilationEngine`.
+Process tokens read from the `.tok` files.  Stores the list of tokens for later extraction by the `CompilationEngine`. Source in `jackparser.h`
 
 
 ### *_CompilationEngine_*
 Based on the Jack grammar process the token list in the parser.  Generate the XML output file as well. Source in `cengine.h`
 
 ### *_Token_*
-Organisation of token elements in the language and functions to process them.  Source in `token.h`
+Organisation of token elements in the language and functions to access them.  Source in `token.h`
 
 
 

@@ -5,8 +5,8 @@ SDIR=code
 ODIR=obj
 
 # compiler, flag, libraries to include, target executable
-CC=g++
-FLAGS=-I$(IDIR)	 -Wall -g
+CC=clang++
+FLAGS=-I$(IDIR)	 -Wall -g -std=c++14
 LIBS=-lm
 TARGET=Jack
 
