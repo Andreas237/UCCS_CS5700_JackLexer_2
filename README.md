@@ -46,6 +46,9 @@ Implement a recursive descent/top-down parser for the Jack language[1].  Classes
 
 
 
+
+
+
 ## Project Classes
 
 ### *_JackParser_*
@@ -59,6 +62,17 @@ Based on the Jack grammar process the token list in the parser.  Generate the XM
 Organisation of token elements in the language and functions to access them.  Source in `token.h`
 
 
+
+
+
+
+## System Requirements
+
+### Compiler
+Clang++, capable of C++ 2014.  Modify Makefile `CC` and `FLAGS` lines to suit your compiler and C++ standard.
+
+### Platform
+Anything that works with your compiler.  Using C++ 2014 to enable `auto` with loops.
 
 
 
