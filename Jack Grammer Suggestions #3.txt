@@ -1,0 +1,24 @@
+Let's consider the XML file contents briefly.
+
+For our purposes, an XML file is simply a list of open and close tags with some data between them. 
+
+We have two types of tags: Variable and Token.
+
+The Token Tag is trivially simple. It consists of an open tag for an authorized token category (of which there are exactly five), the literal nonterminals from the original Jack file which are the value of the token, and a closing tag. These can (and should -- per the specification on page 211 of Chapter 10) be all on a single line.
+
+So let's consider a token in a file such as
+
+SY_LBRACE: {
+
+Since SY_LBRACE is a subcategory of a 'symbol' token, this should be sent out to the XML file as
+
+<symbol> { </symbol>
+
+One thing that might not be apparent based on the example in Chapter 10 is that there is no need to indent this in the file. Nearly all editors and viewers that recognize XML files will automatically perform appropriate indenting when they display or print the file. 
+
+But should you choose to do so, that should not cause any problems and it easily done by maintaining a variable that contains the current indentation level and that is incremented and decremented as neeeded.
+
+For the Variable Tag, the open and close tags appear on their own lines and the contents on the intervening lines are a mix of Token and Variable tags -- nothing else. This is directly per the specification given on page 211 of Chapter 10.
+
+The only other thing to be aware of is that, as mentioned on page 220 in Chapter 10, there are certain characters that cannot appear as data in an XML file because they have special markup meanings to an XML parser. The three that impact us are {<,>,&}. When these symbols are exported to the output file, they should be exported as {&lt, &gt, and &amp}, respectively.
+
