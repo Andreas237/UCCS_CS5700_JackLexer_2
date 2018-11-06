@@ -1,4 +1,4 @@
-# JackLexer 2 (PJ04)
+# JackLexer 2 (PJ04) - Prof. Changed project, therefore no more dev here
 Author: Andreas Slovacek
 Due:    4 November 2018
 CS5700, University of Colorado Colorado Springs

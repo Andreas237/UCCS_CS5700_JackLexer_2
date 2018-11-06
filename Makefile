@@ -6,7 +6,7 @@ ODIR=obj
 
 # compiler, flag, libraries to include, target executable
 CC=clang++
-FLAGS=-I$(IDIR)	 -Wall -g -std=c++14
+FLAGS=-I$(IDIR)	 -Wall -g -std=c++14 -fopenmp=libomp
 LIBS=-lm
 TARGET=Jack
 
