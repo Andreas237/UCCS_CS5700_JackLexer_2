@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <omp.h>              ///< OpenMP for parallel processing of files
 #include "token.h"
 #include "jackparser.h"
 
